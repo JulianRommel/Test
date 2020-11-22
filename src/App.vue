@@ -1,7 +1,6 @@
 <template>
   <h1>Slideshow:</h1>
   <test></test>
-  
 </template>
 
 <script>

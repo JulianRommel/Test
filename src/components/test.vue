@@ -1,11 +1,10 @@
 <template>
    <div class="slideshow-container">
-   <div class="slides" v-for="img in images" v-bind:key="img" ref="slide">
-        <img v-bind:src="img" alt="Not found">
+   <div class="slide" v-for="(image, index) in images" :key="index" :class="{'active': index === activeItem, 'not-active': index !== activeItem}">
+        <img v-bind:src="image.img" alt="Not found">
    </div>
    <div style="text-align: center">
-      <span class="dot" @click="nextSlide(0)"></span>
-      <span class="dot" @click="nextSlide(1)"></span>
+      <button @click="nextSlide()">Weiter</button>
     </div>
    </div> 
 </template>
@@ -15,18 +14,20 @@ export default {
     data(){
         return{
         images: [
-            require("../assets/WZ1.jpg"), 
-            require("../assets/WZ2.jpg")
-        ]
+            {img: require("../assets/WZ1.jpg")}, 
+            {img: require("../assets/WZ2.jpg")}
+        ],
+        activeItem: 0,
         }
     },
     methods: {
-        nextSlide(x){
-            console.log(x)
-            // Hier sollte eigentlich wie in der Doku beschrieben, ein Array ausgegeben... Wird aber nur das letzte
-            // Element ausgegeben. GabeN pls fix
-            console.log(this.$refs['slide'])
-            this.$refs['slide'].style.backgroundColor = 'red';
+        nextSlide(){
+            if(this.activeItem === this.images.length-1){
+                this.activeItem = 0;
+            }
+            else{
+                this.activeItem += 1;
+            }
         }
     }
 }
@@ -34,6 +35,12 @@ export default {
 <style>
     h1{
         color: red;
+    }
+    .active{
+        display: block;
+    }
+    .not-active{
+        display: none;
     }
     .dot {
   cursor: pointer;
